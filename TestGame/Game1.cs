@@ -10,15 +10,19 @@ namespace TestGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D drifterSprite;
-        Texture2D bomberSprite;
+        public static Texture2D drifterSprite;
+        public static Texture2D bomberSprite;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 500;
-            graphics.PreferredBackBufferWidth = 500;
+            IsMouseVisible = true;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+
+            //graphics.IsFullScreen = true;
+            //graphics.ApplyChanges();
         }
 
         protected override void Initialize()
@@ -36,10 +40,10 @@ namespace TestGame
             drifterSprite = Content.Load<Texture2D>("red");
             bomberSprite = Content.Load<Texture2D>("pink");
 
-            Drifter drifter = new Drifter(drifterSprite);
+            Drifter drifter = new Drifter();
             Enemy.enemies.Add(drifter);
 
-            Bomber bomber = new Bomber(bomberSprite);
+            Bomber bomber = new Bomber();
             Enemy.enemies.Add(bomber);
 
         }
@@ -54,7 +58,6 @@ namespace TestGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //Hur får jag fiendernas individuella betéende?
             foreach (Enemy e in Enemy.enemies)
             {
                 e.Update(gameTime);
@@ -69,7 +72,9 @@ namespace TestGame
 
             foreach (Enemy e in Enemy.enemies)
             {
+                spriteBatch.Begin();
                 e.Draw(spriteBatch);
+                spriteBatch.End();
             }
 
             base.Draw(gameTime);

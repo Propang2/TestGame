@@ -12,84 +12,98 @@ namespace TestGame
 {
     class Enemy
     {
-        public Texture2D texture;
         public Vector2 position;
-        public Vector2 speed = new Vector2(5,0);
+        public Vector2 speed = new Vector2(0,5);
         public int radius;
+        public int timer = 0;
 
         public static List<Enemy> enemies = new List<Enemy>();
 
-        public Enemy(Texture2D _texture)
+        public Enemy()
         {
-            texture = _texture;
+
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             position += speed;
-
-            //Detta ger felmeddelande
-            foreach (Drifter d in enemies)
-            {
-                d.Behavior();
-            }
-
-            foreach (Bomber b in enemies)
-            {
-                b.Behavior();
-            }
+            timer ++; //Kan inte få timern att fungera med gameTime.
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(texture, position, Color.White);
-            spriteBatch.End();
+
         }
     }
 
     class Drifter : Enemy
     {
-        public Drifter(Texture2D t) : base(t)
+        public Drifter()
         {
-            position = new Vector2(100, 100);
+            position = new Vector2(1800, 900);
             radius = 50;
         }
 
-        public void Behavior()
+        public override void Update(GameTime gameTime)
         {
-            if (position.X < 0)
+            if(position.Y >= 1000)
             {
-                speed.X = 5;
+                speed = new Vector2(-2, -5);
             }
-            else if (position.X > 400)
+            else if(position.Y <= -30)
             {
-                speed.X = -5;
+                speed.Y = 5;
             }
+
+            base.Update(gameTime);
         }
 
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Game1.drifterSprite, position, Color.White);
+        }
     }
 
     class Bomber : Enemy
     {
-        public Bomber(Texture2D t) : base(t)
+        public Bomber()
         {
             position = new Vector2(300, 300);
             radius = 50;
         }
 
-        public void Behavior()
+        public override void Update(GameTime gameTime)
         {
-            if (position.X < 0)
+            if (timer >= 180) //Kan inte få timern att fungera med gameTime.
             {
-                speed.X = 5;
-                speed.Y = 2;
+                if (position.X < 0)
+                {
+                    speed.X = 5;
+                }
+                else if (position.X > 400)
+                {
+                    speed.X = -5;
+                }
             }
-            else if (position.X > 400)
+            else
             {
-                speed.X = -5;
-                speed.Y = -2;
+                if (position.X < 0)
+                {
+                    speed.X = 5;
+                    speed.Y = 1;
+                }
+                else if (position.X > 400)
+                {
+                    speed.X = -5;
+                    speed.Y = -1;
+                }
             }
+            base.Update(gameTime);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Game1.bomberSprite, position, Color.White);
         }
     }
 }
