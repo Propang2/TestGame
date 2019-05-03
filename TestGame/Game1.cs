@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace TestGame
 {
@@ -13,11 +14,17 @@ namespace TestGame
         public static Texture2D drifterSprite;
         public static Texture2D bomberSprite;
 
+        KeyboardState keyBoard;
+        bool tReleased = true;
+
+        public static Random rnd = new Random();
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
 
@@ -39,13 +46,6 @@ namespace TestGame
 
             drifterSprite = Content.Load<Texture2D>("red");
             bomberSprite = Content.Load<Texture2D>("pink");
-
-            Drifter drifter = new Drifter();
-            Enemy.enemies.Add(drifter);
-
-            Bomber bomber = new Bomber();
-            Enemy.enemies.Add(bomber);
-
         }
 
         protected override void UnloadContent()
@@ -57,6 +57,22 @@ namespace TestGame
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            
+            keyBoard = Keyboard.GetState();
+
+            //Spawna ut fiende
+            if (keyBoard.IsKeyDown(Keys.T) && tReleased == true)
+            {
+                Drifter drifter = new Drifter();
+                Enemy.enemies.Add(drifter);
+                tReleased = false;
+            }
+
+            if (keyBoard.IsKeyUp(Keys.T))
+            {
+                tReleased = true;
+            }
+
 
             foreach (Enemy e in Enemy.enemies)
             {

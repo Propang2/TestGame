@@ -13,7 +13,7 @@ namespace TestGame
     class Enemy
     {
         public Vector2 position;
-        public Vector2 speed = new Vector2(0,5);
+        public Vector2 speed = new Vector2(-2,0);
         public int radius;
         public int timer = 0;
 
@@ -40,19 +40,24 @@ namespace TestGame
     {
         public Drifter()
         {
-            position = new Vector2(1800, 900);
+            position = new Vector2(1920, Game1.rnd.Next(0, 1000));
             radius = 50;
         }
 
         public override void Update(GameTime gameTime)
         {
+            if(position.X == 1500)
+            {
+                speed.Y = 10;
+            }
+
             if(position.Y >= 1000)
             {
-                speed = new Vector2(-2, -5);
+                speed = new Vector2(-2, -20);
             }
             else if(position.Y <= -30)
             {
-                speed.Y = 5;
+                speed.Y = 20;
             }
 
             base.Update(gameTime);
