@@ -13,6 +13,9 @@ namespace TestGame
 
         public static Texture2D drifterSprite;
         public static Texture2D bomberSprite;
+        public static Texture2D playerSprite;
+
+        Player player;
 
         KeyboardState keyBoard;
         bool tReleased = true;
@@ -46,6 +49,9 @@ namespace TestGame
 
             drifterSprite = Content.Load<Texture2D>("red");
             bomberSprite = Content.Load<Texture2D>("pink");
+            playerSprite = Content.Load<Texture2D>("green");
+
+            player = new Player(new Vector2(400, 400));
         }
 
         protected override void UnloadContent()
@@ -59,6 +65,8 @@ namespace TestGame
                 Exit();
             
             keyBoard = Keyboard.GetState();
+
+            player.Update(gameTime);
 
             //Spawna ut fiende
             if (keyBoard.IsKeyDown(Keys.T) && tReleased == true)
@@ -85,6 +93,12 @@ namespace TestGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin();
+
+            player.Draw(spriteBatch);
+
+            spriteBatch.End();
 
             foreach (Enemy e in Enemy.enemies)
             {

@@ -40,7 +40,7 @@ namespace TestGame
     {
         public Drifter()
         {
-            position = new Vector2(1920, Game1.rnd.Next(0, 1000));
+            position = new Vector2(1920, Game1.rnd.Next(301, 799));
             radius = 50;
         }
 
@@ -49,13 +49,14 @@ namespace TestGame
             if(position.X == 1500)
             {
                 speed.Y = 10;
+                speed.X = -8;
             }
 
-            if(position.Y >= 1000)
+            if(position.Y >= 800)
             {
-                speed = new Vector2(-2, -20);
+                speed = new Vector2(-5, -20);
             }
-            else if(position.Y <= -30)
+            else if(position.Y <= 300)
             {
                 speed.Y = 20;
             }
