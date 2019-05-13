@@ -52,14 +52,11 @@ namespace TestGame
             {
                 speed.X = 0;
             }
-
-
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Game1.playerSprite, position, Color.White);
-              
         }
     }
 }

@@ -52,11 +52,11 @@ namespace TestGame
                 speed.X = -8;
             }
 
-            if(position.Y >= 800)
+            if(position.Y >= 900)
             {
                 speed = new Vector2(-5, -20);
             }
-            else if(position.Y <= 300)
+            else if(position.Y <= 100)
             {
                 speed.Y = 20;
             }
